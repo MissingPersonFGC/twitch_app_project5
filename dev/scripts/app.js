@@ -42,7 +42,7 @@ class App extends React.Component {
     };
   }
 
-  ComponentDidMount() {
+  componentDidMount() {
     Axios({
       method: "get",
       url: "https://api.twitch.tv/helix/streams",
