@@ -109,7 +109,7 @@ class App extends React.Component {
           userName: nameSpliced,
           gameName: selectedName,
           gameID: selectedID,
-          userThumbnail: stream.thumbnail_url.replace('{width}','200').replace('{height}','200'),
+          userThumbnail: stream.thumbnail_url.replace('{width}','320').replace('{height}','180'),
           streamURL: `http://twitch.tv/${nameSpliced}`,
           viewerCount: stream.viewer_count
         }
@@ -124,20 +124,24 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="header">       
-          <h1>Twitch Stream Finder</h1>
-          <select name="gameSelect" id="gameSelect" onChange={this.gameChange}>
-            <option value disabled defaultValue selected>--Please Choose a Game--</option>
-            {this.state.gameData.map((game) => {
-              return <GameOptions gameID={game.id} gameName={game.name} key={game.id} />
-            })}
-          </select>
+      <div className="content">
+        <div className="header">
+          <div className="header__heading">
+            <h1><i class="fab fa-twitch"></i> Twitch Stream Finder</h1>
+          </div>
+          <div className="header__changer">
+            <select name="gameSelect" id="gameSelect" onChange={this.gameChange}>
+              <option value disabled defaultValue selected>--Please Choose a Game--</option>
+              {this.state.gameData.map((game) => {
+                return <GameOptions gameID={game.id} gameName={game.name} key={game.id} />
+              })}
+            </select>
+          </div>
         </div>
 
         <div className="streamWrapper">
-          {this.state.streams.map((stream) => {
-            return <PopulateStreams streamer={stream.userName} game={stream.gameName} views={stream.viewerCount} streamLink={stream.streamURL} key={stream.userId} userImage={stream.userThumbnail} /> 
+          {this.state.streams.map((stream, index) => {
+            return <PopulateStreams streamer={stream.userName} game={stream.gameName} views={stream.viewerCount} streamLink={stream.streamURL} key={stream.userId} userImage={stream.userThumbnail} index={index + 1} /> 
           })}
         </div>
       </div>

@@ -1,8 +1,75 @@
 @import 'setup';
 
+body {
+    background: darken(#faf9fa, 5);
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.content {
+    padding-top: 25px;
+}
+
 .header {
     width: 80%;
     margin: 0 auto;
     border: 3px solid #4b367c;
-    padding: 10px;
+    background: #faf9fa;
+    padding: 15px;
+    color: #4b367c;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    &__changer select {
+        margin-top: 12px;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #4b367c;
+        background: lighten(#6340a6, 40);
+        color: #4b367c;
+    }
+}
+
+.streamWrapper {
+    margin: 0 auto;
+    margin-top: 50px;
+    width: 80%;
+
+    .streamer {
+        display: grid;
+        margin-bottom: 15px;
+        grid-template-columns: 1fr 2fr;
+        border: 2px solid #4b367c;
+        background: #faf9fa;
+        padding: 15px;
+        transition: 0.5s;
+        
+        img {
+            width: 100%;
+        }
+
+        &__description {
+            padding-left: 15px;
+            padding-top: 12px;
+        }
+    }
+}
+
+a {
+    text-decoration: none;
+    color: #4b367c;
+
+    &:hover {
+        .streamer {
+            background: lighten(#6340a6, 40);
+            border: 2px solid #6340a6;
+            box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        }
+        transition: 0.5s;
+    }
+}
+
+.paragraph {
+    &--large {
+        font-size: 30px;
+    }
 }

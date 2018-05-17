@@ -3,7 +3,7 @@ import React from 'react';
 const PopulateStreams = (props) => {
     return (
         <a href={props.streamLink}>
-            <div className="streamer">
+            <div className="streamer" id={props.index}>
                 <div className="streamer__image">
                     <img src={props.userImage} alt={props.streamer}/>
                 </div>
