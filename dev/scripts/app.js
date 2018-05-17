@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Axios from 'axios';
 import GameOptions from './GameOptions';
+import PopulateStreams from './PopulateStreams';
 
 
 class App extends React.Component {
@@ -109,7 +110,8 @@ class App extends React.Component {
           gameName: selectedName,
           gameID: selectedID,
           userThumbnail: stream.thumbnail_url.replace('{width}','200').replace('{height}','200'),
-          streamURL: `http://twitch.tv/${nameSpliced}`
+          streamURL: `http://twitch.tv/${nameSpliced}`,
+          viewerCount: stream.viewer_count
         }
       });
 
@@ -123,13 +125,21 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>Twitch Stream Finder</h1>
-        <select name="gameSelect" id="gameSelect" onChange={this.gameChange}>
-          <option value disabled defaultValue selected>--Please Choose a Game--</option>
-          {this.state.gameData.map((game) => {
-            return <GameOptions gameID={game.id} gameName={game.name} key={game.id} />
+        <div className="header">       
+          <h1>Twitch Stream Finder</h1>
+          <select name="gameSelect" id="gameSelect" onChange={this.gameChange}>
+            <option value disabled defaultValue selected>--Please Choose a Game--</option>
+            {this.state.gameData.map((game) => {
+              return <GameOptions gameID={game.id} gameName={game.name} key={game.id} />
+            })}
+          </select>
+        </div>
+
+        <div className="streamWrapper">
+          {this.state.streams.map((stream) => {
+            return <PopulateStreams streamer={stream.userName} game={stream.gameName} views={stream.viewerCount} streamLink={stream.streamURL} key={stream.userId} userImage={stream.userThumbnail} /> 
           })}
-        </select>
+        </div>
       </div>
     )
   }
