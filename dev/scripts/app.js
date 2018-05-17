@@ -99,9 +99,24 @@ class App extends React.Component {
         Authorization: `Bearer ${this.state.clientAuth}`
       }
     }).then(res => {
-      console.log(res);
       const streamData = res.data.data;
-      console.log(streamData);
+
+      const dataCompiled = streamData.map((stream) => {
+        const nameSpliced = stream.thumbnail_url.replace('https://static-cdn.jtvnw.net/previews-ttv/live_user_','').replace('-{width}x{height}.jpg','')
+        return {
+          userId: stream.user_id,
+          userName: nameSpliced,
+          gameName: selectedName,
+          gameID: selectedID,
+          userThumbnail: stream.thumbnail_url.replace('{width}','200').replace('{height}','200'),
+          streamURL: `http://twitch.tv/${nameSpliced}`
+        }
+      });
+
+      console.log(dataCompiled);
+      this.setState({
+        streams: dataCompiled
+      });
     });
   }
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 const GameOptions = (props) => {
     return(
-        <option value={props.gameID} choice={props.gameName}>{props.gameName}</option>
+        <option value={props.gameID}>{props.gameName}</option>
     )
 }
 
