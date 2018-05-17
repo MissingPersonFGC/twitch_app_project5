@@ -57,8 +57,12 @@ class App extends React.Component {
         `Ultimate Marvel vs. Capcom 3`
       ],
       gameData: [],
-      streams: []
+      streams: [],
+      clientID: `lra80m629sy0ddxg15ib1ei5119vul`,
+      clientAuth: `wbp4z9ojzyfw21c748mezgmyseagjk`     
     };
+
+    this.gameChange = this.gameChange.bind(this);
   }
 
   componentDidMount() {
@@ -69,8 +73,8 @@ class App extends React.Component {
         name: this.state.gameNames
       },
       headers: {
-        "Client-ID": `lra80m629sy0ddxg15ib1ei5119vul`,
-        Authorization: "Bearer " + `wbp4z9ojzyfw21c748mezgmyseagjk`
+        "Client-ID": this.state.clientID,
+        Authorization: `Bearer ${this.state.clientAuth}`
       }
     }).then(res => {
       const gameIDS = res.data.data;
@@ -82,11 +86,23 @@ class App extends React.Component {
   }
 
   gameChange(e) {
-    console.log('game changed!');
     const selectedID = e.target.value;
     const selectedName = e.target.options[e.target.selectedIndex].text;
-    console.log(e.target.value);
-    console.log(e.target.options[e.target.selectedIndex].text);
+    Axios({
+      method: 'get',
+      url: 'https://api.twitch.tv/helix/streams',
+      params: {
+        game_id: selectedID
+      },
+      headers: {
+        "Client-ID": this.state.clientID,
+        Authorization: `Bearer ${this.state.clientAuth}`
+      }
+    }).then(res => {
+      console.log(res);
+      const streamData = res.data.data;
+      console.log(streamData);
+    });
   }
 
   render() {
@@ -94,6 +110,7 @@ class App extends React.Component {
       <div>
         <h1>Twitch Stream Finder</h1>
         <select name="gameSelect" id="gameSelect" onChange={this.gameChange}>
+          <option value disabled defaultValue selected>--Please Choose a Game--</option>
           {this.state.gameData.map((game) => {
             return <GameOptions gameID={game.id} gameName={game.name} key={game.id} />
           })}
