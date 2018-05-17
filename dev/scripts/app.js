@@ -74,7 +74,6 @@ class App extends React.Component {
       }
     }).then(res => {
       const gameIDS = res.data.data;
-      gameIDS.sort();
       console.log(gameIDS);
       this.setState({
         gameData: gameIDS
@@ -82,13 +81,21 @@ class App extends React.Component {
     });
   }
 
+  gameChange(e) {
+    console.log('game changed!');
+    const selectedID = e.target.value;
+    const selectedName = e.target.options[e.target.selectedIndex].text;
+    console.log(e.target.value);
+    console.log(e.target.options[e.target.selectedIndex].text);
+  }
+
   render() {
     return (
       <div>
         <h1>Twitch Stream Finder</h1>
-        <select name="gameSelect" id="gameSelect">
+        <select name="gameSelect" id="gameSelect" onChange={this.gameChange}>
           {this.state.gameData.map((game) => {
-            return <GameOptions gameID={game.id} gameName={game.name} />
+            return <GameOptions gameID={game.id} gameName={game.name} key={game.id} />
           })}
         </select>
       </div>
