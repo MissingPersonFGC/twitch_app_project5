@@ -5,6 +5,7 @@ import GameOptions from './GameOptions';
 import PopulateStreams from './PopulateStreams';
 import Twitch from './Twitch';
 
+console.log(Twitch);
 
 class App extends React.Component {
   constructor() {
@@ -61,10 +62,13 @@ class App extends React.Component {
       gameData: [],
       streams: [],
       clientID: `lra80m629sy0ddxg15ib1ei5119vul`,
-      clientAuth: `wbp4z9ojzyfw21c748mezgmyseagjk`     
+      clientAuth: `wbp4z9ojzyfw21c748mezgmyseagjk`,
+      streamToOpen: '',
+      twitchVisible: false
     };
 
     this.gameChange = this.gameChange.bind(this);
+    this.streamOpen = this.streamOpen.bind(this);
   }
 
   componentDidMount() {
@@ -85,6 +89,25 @@ class App extends React.Component {
         gameData: gameIDS
       });
     });
+  }
+
+  streamOpen(id) {
+    const streamerName = id;
+    console.log(streamerName);
+
+    this.setState({ 
+      twitchVisible: true 
+    }, ()=> {
+      this.setState({
+        streamToOpen: new Twitch.Embed(`twitch-embed`, {
+          width: 1280,
+          height: 720,
+          channel: streamerName,
+          theme: "dark"
+        })
+      });
+    });
+  
   }
 
   gameChange(e) {
@@ -124,29 +147,37 @@ class App extends React.Component {
   }
 
   render() {
-    return (
-      <div className="content">
+    return <div className="content">
         <div className="header">
           <div className="header__heading">
-            <h1><i class="fab fa-twitch"></i> Twitch Stream Finder</h1>
+            <h1>
+              <i className="fab fa-twitch" /> Twitch Stream Finder
+            </h1>
           </div>
           <div className="header__changer">
             <select name="gameSelect" id="gameSelect" onChange={this.gameChange}>
-              <option value disabled defaultValue selected>--Please Choose a Game--</option>
-              {this.state.gameData.map((game) => {
-                return <GameOptions gameID={game.id} gameName={game.name} key={game.id} />
+              <option value disabled defaultValue selected>
+                --Please Choose a Game--
+              </option>
+              {this.state.gameData.map(game => {
+                return <GameOptions gameID={game.id} gameName={game.name} key={game.id} />;
               })}
             </select>
           </div>
         </div>
-
         <div className="streamWrapper">
           {this.state.streams.map((stream, index) => {
-            return <PopulateStreams streamer={stream.userName} game={stream.gameName} views={stream.viewerCount} streamLink={stream.streamURL} key={stream.userId} userImage={stream.userThumbnail} index={index + 1} /> 
+            return <PopulateStreams streamer={stream.userName} game={stream.gameName} views={stream.viewerCount} streamLink={stream.streamURL} key={stream.userId} userImage={stream.userThumbnail} index={index + 1} streamOpen={this.streamOpen} />;
           })}
         </div>
-      </div>
-    )
+        {this.state.twitchVisible 
+        ? 
+          <div className="video-container">
+            <div id="twitch-embed"></div>
+          </div> 
+        : 
+        null}
+      </div>;
   }
 }
 
