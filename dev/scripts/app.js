@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Axios from 'axios';
 import GameOptions from './GameOptions';
 import PopulateStreams from './PopulateStreams';
+import Twitch from './Twitch';
 
 
 class App extends React.Component {
