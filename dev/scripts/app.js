@@ -69,6 +69,7 @@ class App extends React.Component {
 
     this.gameChange = this.gameChange.bind(this);
     this.streamOpen = this.streamOpen.bind(this);
+    this.closeStream = this.closeStream.bind(this);
   }
 
   componentDidMount() {
@@ -146,6 +147,14 @@ class App extends React.Component {
     });
   }
 
+  closeStream(e) {
+    e.preventDefault();
+    this.setState({
+      twitchVisible: false,
+      streamToOpen: ''
+    })
+  }
+
   render() {
     return <div className="content">
         <div className="header">
@@ -170,13 +179,14 @@ class App extends React.Component {
             return <PopulateStreams streamer={stream.userName} game={stream.gameName} views={stream.viewerCount} streamLink={stream.streamURL} key={stream.userId} userImage={stream.userThumbnail} index={index + 1} streamOpen={this.streamOpen} />;
           })}
         </div>
-        {this.state.twitchVisible 
-        ? 
-          <div className="video-container">
-            <div id="twitch-embed"></div>
-          </div> 
-        : 
-        null}
+        {this.state.twitchVisible ? <div className="video-container">
+            <a onClick={this.closeStream}>
+              <span id="close-button">
+                <i class="far fa-times-circle"></i>
+              </span>
+            </a>
+            <div id="twitch-embed" />
+          </div> : null}
       </div>;
   }
 }
