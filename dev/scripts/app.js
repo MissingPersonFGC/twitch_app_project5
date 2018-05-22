@@ -5,8 +5,6 @@ import GameOptions from './GameOptions';
 import PopulateStreams from './PopulateStreams';
 import Twitch from './Twitch';
 
-console.log(Twitch);
-
 class App extends React.Component {
   constructor() {
     super()
@@ -57,14 +55,20 @@ class App extends React.Component {
         `Rising Thunder`,
         `For Honor`,
         `Karnov's Revenge`,
-        `Ultimate Marvel vs. Capcom 3`
+        `Ultimate Marvel vs. Capcom 3`,
+        `Fortnite`,
+        `PLAYERUNKNOWN’S BATTLEGROUNDS`,
+        `Overwatch`,
+        `Dota 2`,
+        `League of Legends`
       ],
       gameData: [],
       streams: [],
-      clientID: `lra80m629sy0ddxg15ib1ei5119vul`,
-      clientAuth: `wbp4z9ojzyfw21c748mezgmyseagjk`,
+      clientID: `id`,
+      clientAuth: `auto`,
       streamToOpen: '',
-      twitchVisible: false
+      twitchVisible: false,
+      gameChosen: '',
     };
 
     this.gameChange = this.gameChange.bind(this);
@@ -101,8 +105,8 @@ class App extends React.Component {
     }, ()=> {
       this.setState({
         streamToOpen: new Twitch.Embed(`twitch-embed`, {
-          width: 1280,
-          height: 720,
+          width: '100%',
+          height: 750,
           channel: streamerName,
           theme: "dark"
         })
@@ -128,7 +132,9 @@ class App extends React.Component {
       const streamData = res.data.data;
 
       const dataCompiled = streamData.map((stream) => {
-        const nameSpliced = stream.thumbnail_url.replace('https://static-cdn.jtvnw.net/previews-ttv/live_user_','').replace('-{width}x{height}.jpg','')
+        const nameSpliced = stream.thumbnail_url
+          .replace('https://static-cdn.jtvnw.net/previews-ttv/live_user_','')
+          .replace('-{width}x{height}.jpg','')
         return {
           userId: stream.user_id,
           userName: nameSpliced,
@@ -142,7 +148,8 @@ class App extends React.Component {
 
       console.log(dataCompiled);
       this.setState({
-        streams: dataCompiled
+        streams: dataCompiled,
+        gameChosen: selectedName
       });
     });
   }
@@ -175,14 +182,23 @@ class App extends React.Component {
           </div>
         </div>
         <div className="streamWrapper">
-          {this.state.streams.map((stream, index) => {
+        {this.state.streams.length > 0  ?
+          this.state.streams.map((stream, index) => {
             return <PopulateStreams streamer={stream.userName} game={stream.gameName} views={stream.viewerCount} streamLink={stream.streamURL} key={stream.userId} userImage={stream.userThumbnail} index={index + 1} streamOpen={this.streamOpen} />;
-          })}
+          })
+          : this.state.gameChosen != '' ?
+          <div className="streamer">
+            <div className="no-one-streaming">
+              <p className="paragraph--large--center">No one is streaming this game now.</p>
+            </div>
+          </div>
+          : null
+        }
         </div>
         {this.state.twitchVisible ? <div className="video-container">
-            <a onClick={this.closeStream}>
+            <a onClick={this.closeStream} id="close">
               <span id="close-button">
-                <i class="far fa-times-circle"></i>
+                <i className="far fa-times-circle"></i>
               </span>
             </a>
             <div id="twitch-embed" />

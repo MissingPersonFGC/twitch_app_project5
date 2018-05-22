@@ -53,6 +53,10 @@ body {
             padding-left: 15px;
             padding-top: 12px;
         }
+
+        .no-one-streaming {
+            grid-column: 1 / span 2;
+        }
     }
 }
 
@@ -68,10 +72,44 @@ a {
         }
         transition: 0.5s;
     }
+
+    &#close {
+        color: darken(#faf9fa, 5);
+    }
 }
 
 .paragraph {
     &--large {
         font-size: 30px;
+
+        &--center {
+            @extend .paragraph--large;
+            text-align: center;
+            color: #4b367c;
+        }
     }
+}
+
+.video-container {
+    z-index: 10;
+    position: absolute;
+    top: 5vh;
+    left: 5%;
+    width: 90%;
+    height: 90vh;
+    background: darken(#6340a6, 20);
+
+    #twitch-embed {
+        width: 90%;
+        height: auto;
+        margin: 3.5% auto;
+    }
+}
+
+#close-button {
+    display: inline-block;
+    font-size: 30px;
+    position: absolute;
+    top: 0.5%;
+    right: 2%;
 }
