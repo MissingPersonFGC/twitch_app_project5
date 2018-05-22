@@ -89,7 +89,6 @@ class App extends React.Component {
       }
     }).then(res => {
       const gameIDS = res.data.data;
-      console.log(gameIDS);
       this.setState({
         gameData: gameIDS
       });
@@ -98,7 +97,6 @@ class App extends React.Component {
 
   streamOpen(id) {
     const streamerName = id;
-    console.log(streamerName);
 
     this.setState({ 
       twitchVisible: true 
@@ -146,7 +144,6 @@ class App extends React.Component {
         }
       });
 
-      console.log(dataCompiled);
       this.setState({
         streams: dataCompiled,
         gameChosen: selectedName
