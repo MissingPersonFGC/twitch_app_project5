@@ -113,3 +113,39 @@ a {
     top: 0.5%;
     right: 2%;
 }
+
+@media (max-width: 600px) {
+    .streamWrapper {
+        width: 95%;
+        margin-top: 25px;
+        
+        .streamer {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .header {
+        width: 95%;
+        grid-template-columns: 2fr 3fr;
+
+        &__changer select {
+            margin-left: 5px;
+            padding: 5px;
+            font-size: 12px;
+        }
+    }
+
+    h1 {
+        font-size: 14px;
+    }
+
+    .paragraph {
+        margin-top: 0;
+        margin-bottom: 5px;
+        font-size: 10px;
+
+        &--large {
+            font-size: 15px;
+        }
+    }
+}
